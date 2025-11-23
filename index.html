@@ -6,6 +6,7 @@
 <title>🐰 C9 1회차 낭플단</title>
 
 <style>
+/* ===== 전체 배경 / 기본 폰트 ===== */
 body {
     background: #FFF6FA;
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -16,13 +17,14 @@ body {
     margin: 0;
 }
 
-/* 컨테이너 */
+/* ===== 타이틀 영역 컨테이너 ===== */
 .wrap {
-    width: fit-content;          /* ⭐ 폭 고정 제거 + 내용 기반 너비 */
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
 }
 
-/* 제목 */
+/* ===== 제목 ===== */
 h1 {
     text-align: center;
     font-size: 22px;
@@ -31,24 +33,31 @@ h1 {
     color: #FF8FB2;
 }
 
-/* 테이블 */
+/* ===== 스크롤 가능한 영역 (A형: 가로 스크롤 허용) ===== */
+.table-scroll {
+    overflow-x: auto;           /* 가로로 넘치면 스크롤 */
+    padding-bottom: 4px;
+}
+
+/* ===== 테이블(행 묶음) ===== */
 .table {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px;                  /* 행 사이 여백 */
+    min-width: 650px;           /* 너무 찌그러지지 않게 최소폭만 */
 }
 
-/* 행 */
+/* ===== 행 (카드형) ===== */
 .row {
     display: grid;
     grid-template-columns:
-        minmax(80px, auto)  /* 아이디 */
-        minmax(80px, auto)  /* 닉네임 */
-        minmax(55px, auto)  /* 갯수 */
-        minmax(55px, auto)  /* 원플원 */
+        minmax(90px, auto)  /* 아이디 */
+        minmax(90px, auto)  /* 닉네임 */
+        minmax(70px, auto)  /* 갯수 */
+        minmax(70px, auto)  /* 원플원 */
         minmax(80px, auto)  /* 공약 */
-        minmax(55px, auto)  /* 역팬 */
-        minmax(60px, auto); /* 비고 */
+        minmax(70px, auto)  /* 역팬 */
+        minmax(80px, auto); /* 비고 */
 
     background: white;
     border-radius: 26px;
@@ -57,36 +66,57 @@ h1 {
     box-shadow: 0 2px 8px rgba(255,150,180,0.10);
 }
 
-/* 셀 */
+/* ===== 셀 ===== */
 .cell {
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 14px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    white-space: nowrap;
-    min-width: 40px;
+    text-align: center;
+
+    white-space: nowrap;        /* 한 줄 유지 */
     border-right: 1px solid #FFE1EF;
     outline: none;
+    cursor: text;
 }
 
 .cell:last-child {
     border-right: none;
 }
 
-/* 헤더 */
+/* ===== 헤더 ===== */
+.header {
+    background: #FFE8F4;
+}
+
 .header .cell {
     font-weight: 700;
-    background: #FFE8F4;
     color: #D55382;
     border-bottom: 2px solid #F5BAD2;
     contenteditable: false;
+    cursor: default;
 }
 
-/* 모바일에서 자동 축소 */
+/* ===== 색상 팔레트 (갯수 구간별 행 배경) ===== */
+:root {
+    --lv0: #FFFFFF;  /* 0~99 */
+    --lv1: #FFF6FB;  /* 100~298 */
+    --lv2: #FFEFF7;  /* 299~999 */
+    --lv3: #FFE6F3;  /* 1000~2999 */
+    --lv4: #FFDEEF;  /* 3000~4999 */
+    --lv5: #FFD5EB;  /* 5000~9999 */
+    --lv6: #FFCDE6;  /* 10000~49999 */
+    --lv7: #FFC5E2;  /* 50000~99999 */
+    --lv8: #FFBCD9;  /* 100000~299999 */
+    --lv9: #FFB2D0;  /* 300000~ */
+}
+
+/* 모바일에서 살짝 축소 (캡쳐용 비율) */
 @media (max-width: 600px) {
     .wrap {
-        transform: scale(0.82);
+        transform: scale(0.9);
         transform-origin: top center;
     }
 }
@@ -96,56 +126,92 @@ h1 {
 <body>
 <div class="wrap">
 
-<h1>🐰 C9 1회차 낭플단</h1>
+    <h1>🐰 C9 1회차 낭플단</h1>
 
-<div class="table" id="table">
+    <div class="table-scroll">
+        <div class="table" id="table">
 
-    <div class="row header">
-        <div class="cell">아이디</div>
-        <div class="cell">닉네임</div>
-        <div class="cell">갯수</div>
-        <div class="cell">원플원</div>
-        <div class="cell">공약</div>
-        <div class="cell">역팬</div>
-        <div class="cell">비고</div>
+            <!-- 헤더 -->
+            <div class="row header">
+                <div class="cell">아이디</div>
+                <div class="cell">닉네임</div>
+                <div class="cell">갯수</div>
+                <div class="cell">원플원</div>
+                <div class="cell">공약</div>
+                <div class="cell">역팬</div>
+                <div class="cell">비고</div>
+            </div>
+
+            <!-- 샘플 데이터 1줄 (복사해서 사용하면 됨) -->
+            <div class="row data-row">
+                <div class="cell" contenteditable="true">danggun</div>
+                <div class="cell" contenteditable="true">당군</div>
+                <div class="cell amount-cell" contenteditable="true">30000</div>
+                <div class="cell" contenteditable="true">1</div>
+                <div class="cell" contenteditable="true">출석</div>
+                <div class="cell ygp-cell" contenteditable="true"></div>
+                <div class="cell" contenteditable="true">VIP</div>
+            </div>
+
+        </div>
     </div>
-
-    <div class="row data">
-        <div class="cell" contenteditable="true">danggun</div>
-        <div class="cell" contenteditable="true">당군</div>
-        <div class="cell amount" contenteditable="true">30000</div>
-        <div class="cell" contenteditable="true">1</div>
-        <div class="cell" contenteditable="true">출석</div>
-        <div class="cell ygp" contenteditable="true"></div>
-        <div class="cell" contenteditable="true">VIP</div>
-    </div>
-
-</div>
 
 </div>
 
 <script>
-/* === 클릭하면 셀 포커스, 배경 누르면 키보드 닫기 === */
+/* ===========================
+   1) 갯수 기준 색상 + 역팬 3% 계산
+   =========================== */
+function applyRowStyle(row) {
+    const amountCell = row.querySelector(".amount-cell");
+    const ygpCell    = row.querySelector(".ygp-cell");
+    if (!amountCell || !ygpCell) return;
+
+    const num = parseInt(amountCell.innerText.replace(/[^0-9]/g, ""), 10) || 0;
+
+    // 역팬 = 3% (반올림)
+    ygpCell.innerText = num > 0 ? Math.round(num * 0.03) : "";
+
+    let levelVar = "--lv0";
+    if (num >= 100 && num <= 298)          levelVar = "--lv1";
+    else if (num >= 299 && num <= 999)     levelVar = "--lv2";
+    else if (num >= 1000 && num <= 2999)   levelVar = "--lv3";
+    else if (num >= 3000 && num <= 4999)   levelVar = "--lv4";
+    else if (num >= 5000 && num <= 9999)   levelVar = "--lv5";
+    else if (num >= 10000 && num <= 49999) levelVar = "--lv6";
+    else if (num >= 50000 && num <= 99999) levelVar = "--lv7";
+    else if (num >= 100000 && num <= 299999) levelVar = "--lv8";
+    else if (num >= 300000)                levelVar = "--lv9";
+
+    row.style.background = `var(${levelVar})`;
+}
+
+/* 모든 데이터 행에 스타일 적용 */
+function refreshAllRows() {
+    document.querySelectorAll(".row.data-row").forEach(applyRowStyle);
+}
+
+/* 입력할 때마다 해당 행만 다시 계산 */
+document.getElementById("table").addEventListener("input", (e) => {
+    const row = e.target.closest(".row.data-row");
+    if (row) applyRowStyle(row);
+});
+
+/* ===========================
+   2) 배경 클릭 시 키보드 닫기
+   =========================== */
 document.addEventListener("click", (e) => {
     const isCell = e.target.closest(".cell");
-    if (!isCell && document.activeElement.classList.contains("cell")) {
-        document.activeElement.blur();
+    if (!isCell) {
+        const active = document.activeElement;
+        if (active && active.classList.contains("cell")) {
+            active.blur();
+        }
     }
 });
 
-/* === 3% 역팬 + 색상 === */
-function applyStyle(row){
-    const amt = row.querySelector(".amount");
-    const ygp = row.querySelector(".ygp");
-    if(!amt || !ygp) return;
-
-    const num = parseInt(amt.innerText.replace(/[^0-9]/g,'')) || 0;
-    ygp.innerText = num > 0 ? Math.round(num * 0.03) : "";
-}
-document.addEventListener("input", e=>{
-    const row = e.target.closest(".row.data");
-    if(row) applyStyle(row);
-});
+/* 초기 한 번 적용 */
+refreshAllRows();
 </script>
 
 </body>
