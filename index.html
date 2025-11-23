@@ -3,8 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <title>🐰 C9 1회차 낭플단</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+/* ------------------------- 기본 스타일 ------------------------- */
+body {
+    background: #FFF7F1;
+    font-family: "Pretendard", system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    color: #5b3b3b;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 900px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #FF9DB5;
+    font-weight: 800;
+    font-size: 22px;
+}
+
+/* 테이블 전체 */
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 열 구조 */
+.row {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr 1fr 1fr 1.4fr 1fr 1.4fr;
+    gap: 6px;
+}
+
+.cell {
+    background: #ffffff;
+    padding: 10px 8px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.3;
+    border: 1px solid #ffe4ef;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    outline: none;
+}
+
+.header .cell {
+    background: #FFE9F3;
+    color: #D05B87;
+    font-weight: 700;
+}
+
+.cell:focus {
+    background: #fff3fb;
+    border-color: #ffb6d2;
+}
+
+/* ---------------- 색상 팔레트 (파스텔 핑크) ---------------- */
+:root {
+    --lv1: #FFF6FB;
+    --lv2: #FFEFF7;
+    --lv3: #FFE6F3;
+    --lv4: #FFDEEF;
+    --lv5: #FFD5EB;
+    --lv6: #FFCDE6;
+    --lv7: #FFC5E2;
+    --lv8: #FFBCD9;
+    --lv9: #FFB2D0;
+}
+</style>
 </head>
+
 <body>
 
 <div class="wrap">
@@ -12,7 +87,7 @@
 
     <div class="table">
 
-        <!-- 헤더 -------------------------------------------------->
+        <!-- 헤더 -->
         <div class="row header">
             <div class="cell">아이디</div>
             <div class="cell">닉네임</div>
@@ -23,7 +98,7 @@
             <div class="cell">비고</div>
         </div>
 
-        <!-- 예시 데이터 행 (엑셀 주면 내가 자동 생성해줄 부분) -->
+        <!-- 예시 데이터 -->
         <div class="row" data-amount="1200">
             <div class="cell" contenteditable="true">danggun</div>
             <div class="cell" contenteditable="true">당군</div>
@@ -47,6 +122,33 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+// ---------------- 역팬 계산 + 색상 적용 ----------------
+document.querySelectorAll(".row").forEach(row => {
+    const amount = Number(row.dataset.amount || 0);
+    const fanCell = row.querySelector(".calc-ygp");
+
+    // 역팬 자동 계산 (반올림)
+    if (fanCell) fanCell.textContent = Math.round(amount * 0.03);
+
+    // 색상 단계 지정
+    let level = "--lv1";
+    if(amount >= 299 && amount <= 999) level = "--lv2";
+    else if(amount >= 1000 && amount <= 2999) level = "--lv3";
+    else if(amount >= 3000 && amount <= 4999) level = "--lv4";
+    else if(amount >= 5000 && amount <= 9999) level = "--lv5";
+    else if(amount >= 10000 && amount <= 49999) level = "--lv6";
+    else if(amount >= 50000 && amount <= 99999) level = "--lv7";
+    else if(amount >= 100000 && amount <= 299999) level = "--lv8";
+    else if(amount >= 300000) level = "--lv9";
+
+    row.style.background = `var(${level})`;
+
+    // 갯수 텍스트 강조
+    const amountCell = row.children[2];
+    if(amountCell) amountCell.style.color = "#C83F7E";
+});
+</script>
+
 </body>
 </html>
