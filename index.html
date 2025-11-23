@@ -6,7 +6,6 @@
 <title>🐰 C9 1회차 낭플단</title>
 
 <style>
-/* 배경 & 전체 폰트 */
 body {
     background: #FFF6FA;
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -17,13 +16,12 @@ body {
     margin: 0;
 }
 
-/* 메인 컨테이너 */
 .wrap {
     width: 100%;
     max-width: 900px;
 }
 
-/* 타이틀 */
+/* 제목 */
 h1 {
     text-align: center;
     font-size: 22px;
@@ -32,58 +30,61 @@ h1 {
     color: #FF8FB2;
 }
 
-/* 표 전체 */
+/* 테이블 */
 .table {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* 행 사이 간격 (셀 사이 말고 행 사이) */
+    gap: 10px;
 }
 
-/* 각 행: 카드형, 좌우 둥글게 */
+/* 행 */
 .row {
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(7, max-content);
     background: #FFFFFF;
     border-radius: 16px;
+    padding: 8px 0;
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(255,150,180,0.12);
 }
 
-/* 셀 기본 스타일 */
+/* 셀 */
 .cell {
-    padding: 8px 6px;
-    text-align: center;
+    padding: 10px 8px;
     font-size: 14px;
     border-right: 1px solid #FFE1EF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* 글씨 높이에 맞춰 자연스럽게 늘어나게 */
-    min-height: 32px;
-    box-sizing: border-box;
-
-    /* 수정 가능하도록 */
     outline: none;
     cursor: text;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    /* 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 줄바꿈 허용 + 내용기준 크기 */
+    white-space: normal;
+    word-break: break-word;
+
+    /* 너무 좁아지지 않게 */
+    min-width: 50px;
+    max-width: 240px;
+    text-align: center;
 }
 
-/* 마지막 셀은 오른쪽 선 제거 */
+/* 마지막 셀 구분선 제거 */
 .cell:last-child {
     border-right: none;
 }
 
-/* 헤더 행 */
+/* HEADER */
 .header {
     background: #FFE8F4;
 }
-
 .header .cell {
     font-weight: 700;
     color: #D55382;
     border-bottom: 2px solid #F5BAD2;
+    contenteditable: false;
     cursor: default;
 }
 
@@ -92,12 +93,12 @@ h1 {
     pointer-events: none;
 }
 
-/* 포커스 시 (어디 수정 중인지 표시) */
+/* 포커스된 셀 표시 */
 .data .cell:focus {
     background: #FFE6F6;
 }
 
-/* 모바일에서 화면에 살짝 작게 보이도록 (캡쳐 편하게) */
+/* 모바일에서 살짝 축소 */
 @media (max-width: 600px) {
     .wrap {
         transform: scale(0.95);
@@ -110,47 +111,64 @@ h1 {
 <body>
 <div class="wrap">
 
-    <h1>🐰 C9 1회차 낭플단</h1>
+<h1>🐰 C9 1회차 낭플단</h1>
 
-    <div class="table">
+<div class="table" id="table">
 
-        <!-- 헤더 -->
-        <div class="row header">
-            <div class="cell">아이디</div>
-            <div class="cell">닉네임</div>
-            <div class="cell">갯수</div>
-            <div class="cell">원플원</div>
-            <div class="cell">공약</div>
-            <div class="cell">역팬</div>
-            <div class="cell">비고</div>
-        </div>
-
-        <!-- 예시 데이터 1줄 (나중에 엑셀 값으로 교체하면 됨) -->
-        <div class="row data">
-            <div class="cell" contenteditable="true">danggun</div>
-            <div class="cell" contenteditable="true">당군</div>
-            <div class="cell" contenteditable="true">30000</div>
-            <div class="cell" contenteditable="true">1</div>
-            <div class="cell" contenteditable="true">출석</div>
-            <div class="cell" contenteditable="true">900</div>
-            <div class="cell" contenteditable="true">VIP</div>
-        </div>
-
-        <!-- 필요하면 이런 식으로 줄 더 복사해서 사용 -->
-        <!--
-        <div class="row data">
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-            <div class="cell" contenteditable="true"></div>
-        </div>
-        -->
-
+    <div class="row header">
+        <div class="cell">아이디</div>
+        <div class="cell">닉네임</div>
+        <div class="cell">갯수</div>
+        <div class="cell">원플원</div>
+        <div class="cell">공약</div>
+        <div class="cell">역팬</div>
+        <div class="cell">비고</div>
     </div>
+
+    <div class="row data">
+        <div class="cell" contenteditable="true">danggun</div>
+        <div class="cell" contenteditable="true">당군</div>
+        <div class="cell" contenteditable="true">30000</div>
+        <div class="cell" contenteditable="true">1</div>
+        <div class="cell" contenteditable="true">출석</div>
+        <div class="cell" contenteditable="true">900</div>
+        <div class="cell" contenteditable="true">VIP</div>
+    </div>
+
 </div>
+
+</div>
+
+<script>
+/* 🔥 열 너비 동적 계산 */
+function resizeColumns() {
+    const rows = document.querySelectorAll(".row.data");
+    if (!rows.length) return;
+
+    const firstRow = rows[0];
+    const colCount = firstRow.children.length;
+
+    const maxWidths = Array(colCount).fill(0);
+
+    rows.forEach(row => {
+        [...row.children].forEach((cell, i) => {
+            const width = cell.scrollWidth;
+            if (width > maxWidths[i]) maxWidths[i] = width;
+        });
+    });
+
+    const colWidths = maxWidths.map(w => `${w + 20}px`).join(" ");
+    document.querySelectorAll(".row").forEach(row => {
+        row.style.gridTemplateColumns = colWidths;
+    });
+}
+
+/* 입력 시 즉시 다시 계산 */
+document.addEventListener("input", resizeColumns);
+
+/* 로딩 때 1회 계산 */
+window.onload = resizeColumns;
+</script>
 
 </body>
 </html>
