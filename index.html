@@ -15,6 +15,7 @@ body {
     margin: 0;
     color: #4c2d3b;
 }
+
 .wrap {
     width: 100%;
     max-width: 1080px;
@@ -26,50 +27,75 @@ h1 {
     text-align: center;
     font-size: 22px;
     font-weight: 800;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: #FF8FB2;
 }
 
-/* 스크롤 래퍼 */
-.table-scroll {
-    overflow-x: auto;
-    padding-bottom: 4px;
+/* 검색 */
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+.filter-bar input {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid #ffd6ea;
+    background: #FFF9FD;
+    outline: none;
+    width: 250px;
+    text-align: center;
+}
+.filter-bar input:focus {
+    border-color: #ff94c3;
+    box-shadow: 0 0 0 2px rgba(255,159,199,0.25);
 }
 
-/* 테이블(행 묶음) */
+/* 스크롤 */
+.table-scroll {
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+/* 테이블 */
 .table {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     min-width: 760px;
 }
 
 /* 행 */
 .row {
     display: flex;
-    background: white;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
-    padding: 0;
+    background: white;
     min-height: 28px;
 }
 
-/* 셀 공통 */
+/* 셀 */
 .cell {
-    padding: 2px 8px;
+    padding: 6px 10px;
     font-size: 13px;
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     border-right: 1px solid #FFE1EF;
-    outline: none;
-    cursor: text;
     white-space: nowrap;
 }
 .cell:last-child {
     border-right: none;
 }
+
+/* 고정 폭 설정 (자동 폭 제거) */
+.cell:nth-child(1){ width:140px; }
+.cell:nth-child(2){ width:140px; }
+.cell:nth-child(3){ width:100px; }
+.cell:nth-child(4){ width:90px; }
+.cell:nth-child(5){ width:380px; }
+.cell:nth-child(6){ width:80px; }
+.cell:nth-child(7){ width:120px; }
 
 /* 헤더 */
 .header {
@@ -79,28 +105,25 @@ h1 {
     font-weight: 700;
     color: #D04F7D;
     border-bottom: 2px solid #F8C7DB;
-    contenteditable: false;
-    cursor: default;
 }
 
-/* 합계 행 */
+/* 클릭 가능한 정렬 */
+.sort-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.sort-btn span {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* 합계 */
 .summary-row {
-    background: #FFF9FD;
+    background: #FFF2F8;
     font-weight: 700;
     color: #cc507a;
-}
-
-/* 색상단계 */
-:root {
-    --lv1:#FFF9FD;
-    --lv2:#FFEFF6;
-    --lv3:#FFE4F1;
-    --lv4:#FFD9EC;
-    --lv5:#FFCFE8;
-    --lv6:#FFC6E1;
-    --lv7:#FFBDD9;
-    --lv8:#FFB3D1;
-    --lv9:#FFA9CA;
 }
 </style>
 </head>
@@ -110,6 +133,11 @@ h1 {
 
     <h1>🐰 C9 1회차 낭플단</h1>
 
+    <!-- 🔍 검색 -->
+    <div class="filter-bar">
+        <input type="text" id="search" placeholder="아이디 / 닉네임 검색">
+    </div>
+
     <div class="table-scroll">
         <div class="table" id="table">
 
@@ -117,7 +145,10 @@ h1 {
             <div class="row header">
                 <div class="cell">아이디</div>
                 <div class="cell">닉네임</div>
-                <div class="cell">낭플</div>
+                <div class="cell sort-btn" id="sortBtn">
+                    낭플
+                    <span id="sortIcon">⬍</span>
+                </div>
                 <div class="cell">원플원</div>
                 <div class="cell">공약</div>
                 <div class="cell">역팬</div>
@@ -129,10 +160,11 @@ h1 {
 
 </div>
 
+
 <script>
-/* ------------------------------
-   🔹 STEP 2: 데이터 삽입
------------------------------- */
+/* ============================
+   데이터 삽입
+============================ */
 
 const data = [
 ["dksl2233","[C9]잘해",210092,"","정성방셀 + 역팬 3% or 배민 50만원 + 방송소원권 + 식데",6303,""],
@@ -176,28 +208,33 @@ const data = [
 ["vdfntqa85","##38광땡",100,"","공놀이로 남냠이 1만원권 5명","",""]
 ];
 
+
 const table = document.getElementById("table");
 
-// 데이터 추가
-data.forEach(row=>{
-    const div = document.createElement("div");
-    div.classList.add("row");
-    row.forEach(v=>{
-        const c=document.createElement("div");
-        c.classList.add("cell");
-        c.textContent=v;
-        div.appendChild(c);
+/* 데이터 추가 */
+function renderData(list){
+    document.querySelectorAll(".data-row, .summary-row").forEach(n=>n.remove());
+
+    list.forEach(row=>{
+        const div = document.createElement("div");
+        div.classList.add("row","data-row");
+        row.forEach(v=>{
+            const c=document.createElement("div");
+            c.classList.add("cell");
+            c.textContent=v;
+            div.appendChild(c);
+        });
+        table.appendChild(div);
     });
-    table.appendChild(div);
-});
 
+    addSummary(list);
+}
 
-/* 🔹 합계 자동 계산 */
-function updateSummary(){
-    let totalA = 0;
-    let totalY = 0;
+/* 합계 */
+function addSummary(list){
+    let totalA = 0, totalY = 0;
 
-    data.forEach(r=>{
+    list.forEach(r=>{
         totalA += r[2] || 0;
         totalY += r[5] || 0;
     });
@@ -216,7 +253,33 @@ function updateSummary(){
     table.appendChild(sum);
 }
 
-updateSummary();
+renderData(data);
+
+
+/* ============================
+   🔍 검색 기능
+============================ */
+document.getElementById("search").addEventListener("input", e=>{
+    const q = e.target.value.toLowerCase();
+    const filtered = data.filter(row =>
+        row[0].toLowerCase().includes(q) ||
+        row[1].toLowerCase().includes(q)
+    );
+    renderData(filtered);
+});
+
+
+/* ============================
+   🔽 정렬 기능
+============================ */
+let sortDir = -1;
+document.getElementById("sortBtn").addEventListener("click", ()=>{
+    sortDir *= -1;
+    document.getElementById("sortIcon").textContent = sortDir === 1 ? "⬆" : "⬇";
+
+    const sorted = [...data].sort((a,b)=> (a[2]-b[2]) * sortDir);
+    renderData(sorted);
+});
 </script>
 
 </body>
