@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🐰 C9 1회차 낭플단</title>
 
 <style>
@@ -14,7 +15,19 @@ body {
     color: #5b3b3b;
 }
 
-.wrap { max-width: 900px; width: 100%;}
+.wrap {
+    width: 100%;
+    max-width: 900px;
+    transition: transform 0.2s ease;
+}
+
+/* --- 모바일 전용 축소 --- */
+@media (max-width: 600px) {
+    .wrap {
+        transform: scale(0.78);
+        transform-origin: top center;
+    }
+}
 
 /* 제목 */
 h1 {
@@ -39,13 +52,12 @@ h1 {
     background: white;
     border-radius: 14px;
     overflow: clip;
-    padding:0;
 }
 
 /* 셀 */
 .cell {
-    padding: 6px;
-    font-size: 13px;
+    padding: 8px 6px;
+    font-size: 14px;
     border-right: 1px solid #ffd9eb;
     border-bottom: 1px solid #ffd9eb;
     text-align: center;
@@ -54,10 +66,15 @@ h1 {
     white-space: nowrap;
 }
 
+/* 클릭 포커스 활성화 */
+.cell:focus {
+    background: #ffe6f6;
+}
+
 /* 마지막 셀 테두리 제거 */
 .cell:last-child { border-right: none; }
 
-/* 헤더는 수정 불가 */
+/* 헤더 */
 .header .cell {
     background: #FFE9F3;
     color: #D05B87;
@@ -66,27 +83,30 @@ h1 {
     contenteditable: false;
 }
 
-/* 행 조작 버튼 영역 */
+/* --- 행 조작 버튼 --- */
 .actions {
     display: flex;
     gap: 6px;
     align-items: center;
     justify-content: center;
-    visibility: hidden;
-    padding: 4px;
-}
-.actions button {
-    border:none;
-    background:#ffbcd9;
-    padding:4px 6px;
-    border-radius:6px;
-    font-size:12px;
-    color:#6e3c52;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s;
 }
 
-/* 선택된 행만 버튼 보이게 */
+.actions button {
+    border: none;
+    background: #ffbcd9;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #6e3c52;
+}
+
+/* 행 클릭 시만 버튼 보이기 */
 .row.active .actions {
-    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* 색상 팔레트 */
@@ -124,7 +144,7 @@ h1 {
         <div></div>
     </div>
 
-    <!-- 예시 데이터 -->
+    <!-- 샘플 행 -->
     <div class="row data">
         <div class="cell">danggun</div>
         <div class="cell">당군</div>
@@ -147,43 +167,47 @@ h1 {
 <script>
 const table = document.getElementById("table");
 
-/* --- 행 배경 + 역팬 계산 --- */
+/* --- 자동 계산 & 색상 적용 --- */
 function updateRow(row){
-    const amountCell = row.querySelector(".amount");
-    const ygpCell    = row.querySelector(".ygp");
-    if(!amountCell || !ygpCell) return;
+    const a = row.querySelector(".amount");
+    const y = row.querySelector(".ygp");
+    if(!a || !y) return;
 
-    const num = parseInt(amountCell.innerText.replace(/[^0-9]/g,'')) || 0;
-    ygpCell.innerText = num > 0 ? Math.round(num * 0.03) : "";
+    const num = parseInt(a.innerText.replace(/[^0-9]/g,'')) || 0;
+    y.innerText = num > 0 ? Math.round(num * 0.03) : "";
 
     let lv="--lv0";
-    if(num>=100 && num<=298) lv="--lv1";
-    else if(num<=999) lv="--lv2";
-    else if(num<=2999) lv="--lv3";
-    else if(num<=4999) lv="--lv4";
-    else if(num<=9999) lv="--lv5";
-    else if(num<=49999) lv="--lv6";
-    else if(num<=99999) lv="--lv7";
-    else if(num<=299999) lv="--lv8";
-    else if(num>=300000) lv="--lv9";
+    if(num >= 100 && num <= 298) lv="--lv1";
+    else if(num <= 999) lv="--lv2";
+    else if(num <= 2999) lv="--lv3";
+    else if(num <= 4999) lv="--lv4";
+    else if(num <= 9999) lv="--lv5";
+    else if(num <= 49999) lv="--lv6";
+    else if(num <= 99999) lv="--lv7";
+    else if(num <= 299999) lv="--lv8";
+    else if(num >= 300000) lv="--lv9";
 
     row.style.background = `var(${lv})`;
 }
 
-/* 전체 업데이트 */
-function refreshAll(){ document.querySelectorAll(".row.data").forEach(updateRow); }
-refreshAll();
+/* 전체 적용 */
+function refresh(){ document.querySelectorAll(".row.data").forEach(updateRow);}
+refresh();
 
-/* --- 클릭 시 해당 행 활성화 --- */
+/* --- 클릭 시 활성행 설정 --- */
 table.addEventListener("click", e=>{
+    const cell = e.target.closest(".cell");
+    if(cell){
+        cell.focus(); // 강제 포커스
+    }
+
     const row = e.target.closest(".row.data");
     if(!row) return;
-
     document.querySelectorAll(".row.data").forEach(r=>r.classList.remove("active"));
     row.classList.add("active");
 });
 
-/* --- input 발생 시 계산 --- */
+/* --- 입력 이벤트 --- */
 table.addEventListener("input", e=>{
     const row = e.target.closest(".row.data");
     if(row) updateRow(row);
@@ -202,7 +226,7 @@ table.addEventListener("click", e=>{
     });
 
     base.insertAdjacentElement("afterend", newRow);
-    refreshAll();
+    refresh();
 });
 
 /* --- 행 삭제 --- */
