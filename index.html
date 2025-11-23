@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🐰 C9 1회차 낭플단</title>
 
 <style>
-/* ===== 전체 레이아웃 ===== */
 body {
     background: #FFF6FA;
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -18,10 +17,10 @@ body {
 }
 .wrap {
     width: 100%;
-    max-width: 1080px;
     margin: 0 auto;
 }
 
+/* 제목 */
 h1 {
     text-align: center;
     font-size: 22px;
@@ -30,84 +29,48 @@ h1 {
     color: #FF8FB2;
 }
 
-/* ===== 검색바 ===== */
-.filter-bar {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
-    font-size: 13px;
-}
-.filter-bar input {
-    flex: 1;
-    max-width: 260px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid #ffd6ea;
-    background: #FFF9FD;
-    outline: none;
-}
-.filter-bar input:focus {
-    border-color: #ff9fc7;
-    box-shadow: 0 0 0 2px rgba(255,159,199,0.25);
-}
-
-/* ===== 테이블 ===== */
+/* 스크롤 래퍼 */
 .table-scroll {
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
 }
+
+/* 테이블 */
 .table {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    min-width: 760px;
+    min-width: 820px;
 }
 
+/* 행 */
 .row {
     display: flex;
     background: white;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(255,150,180,0.08);
     padding: 2px 0;
-    position: relative;
 }
 
-/* ===== 셀 ===== */
+/* 셀 */
 .cell {
-    padding: 6px 10px;
+    padding: 4px 8px;
     font-size: 14px;
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     text-align: center;
     border-right: 1px solid #FFE1EF;
     outline: none;
-    cursor: text;
     white-space: nowrap;
-    position: relative;
-    min-width: 70px;
+    min-height: 34px;
 }
 .cell:last-child {
     border-right: none;
 }
 
-/* ===== 열 리사이즈 핸들 ===== */
-.resize-handle {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    cursor: col-resize;
-    background: transparent;
-}
-.cell:hover .resize-handle {
-    background: rgba(255, 150, 180, 0.3);
-}
-
-/* ===== 헤더 ===== */
+/* 헤더 */
 .header {
     background: #FFEFF7;
 }
@@ -115,23 +78,44 @@ h1 {
     font-weight: 700;
     color: #D04F7D;
     border-bottom: 2px solid #F8C7DB;
-    contenteditable: false;
-    cursor: grab;
+    cursor: default;
+    user-select: none;
 }
 
-/* ===== 행 제어 ===== */
+/* 색상 레벨 (더 연하게) */
+:root {
+    --lv0: #FFFFFF;
+    --lv1: #FFF9FD;
+    --lv2: #FFF3FA;
+    --lv3: #FFEAF4;
+    --lv4: #FFE2EF;
+    --lv5: #FFD9EB;
+    --lv6: #FFD1E7;
+    --lv7: #FFC8E3;
+    --lv8: #FFBFE0;
+    --lv9: #FFB5DB;
+}
+
+/* 행 버튼 UI */
 .action-cell {
     width: 70px;
     position: relative;
+    border-right: none;
 }
+
 .action-buttons {
     display: none;
-    gap: 4px;
     position: absolute;
-    right: 4px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
+    gap: 4px;
 }
+
+.row.show-actions .action-buttons {
+    display: flex;
+}
+
 .action-buttons button {
     background: #FFD8EA;
     border: none;
@@ -141,35 +125,19 @@ h1 {
     cursor: pointer;
     color: #D24E78;
 }
-.row.show-actions .action-buttons {
-    display: flex;
-}
 
-/* ===== 색상 레벨 ===== */
-:root {
-    --lv1: #FFF9FD;
-    --lv2: #FFF3FA;
-    --lv3: #FFE9F4;
-    --lv4: #FFE0EF;
-    --lv5: #FFD7EB;
-    --lv6: #FFCEE7;
-    --lv7: #FFC6E3;
-    --lv8: #FFBEDF;
-    --lv9: #FFB6DA;
+/* 열 너비 조절 막대 */
+.resizer {
+    width: 6px;
+    cursor: col-resize;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
-
-/* 수동 수정 표시 */
-.ygp-cell.manual {
-    background: #F1E8FF;
-}
-
-/* 모바일 */
-@media (max-width: 600px) {
-    .wrap {
-        transform: scale(.95);
-        transform-origin: top center;
-    }
-    .resize-handle { display:none; }
+.cell {
+    position: relative;
 }
 </style>
 </head>
@@ -179,169 +147,18 @@ h1 {
 
 <h1>🐰 C9 1회차 낭플단</h1>
 
-<div class="filter-bar">
-    <input id="search" type="text" placeholder="아이디 / 닉네임 검색">
-</div>
-
 <div class="table-scroll">
 <div class="table" id="table">
 
-<!-- ============================ 헤더 ============================ -->
-<div class="row header">
-    <div class="cell">아이디<div class="resize-handle"></div></div>
-    <div class="cell">닉네임<div class="resize-handle"></div></div>
-    <div class="cell amount-cell sort-btn">낭플<div class="resize-handle"></div></div>
-    <div class="cell">원플원<div class="resize-handle"></div></div>
-    <div class="cell">공약<div class="resize-handle"></div></div>
-    <div class="cell">역팬<div class="resize-handle"></div></div>
-    <div class="cell">비고<div class="resize-handle"></div></div>
-    <div class="cell action-cell"></div>
-</div>
-
-<!-- ============================ 데이터 (너가 준 값 그대로) ============================ -->
-<!-- 🔥 (길어서 생략 보여주기라면 계속 자동 생성해줄게, 여기선 구조만) -->
-
-<!-- 예시 1행 -->
-<div class="row data-row">
-    <div class="cell" contenteditable="true">dksl2233<div class="resize-handle"></div></div>
-    <div class="cell" contenteditable="true">[C9]잘해<div class="resize-handle"></div></div>
-    <div class="cell amount-cell" contenteditable="true">210092<div class="resize-handle"></div></div>
-    <div class="cell" contenteditable="true"></div>
-    <div class="cell" contenteditable="true">정성방셀 + 역팬 3% or 배민 50만원 + 방송소원권 + 식데<div class="resize-handle"></div></div>
-    <div class="cell ygp-cell" contenteditable="true" data-auto="true"></div>
-    <div class="cell" contenteditable="true"></div>
-    <div class="cell action-cell">
-        <div class="action-buttons">
-            <button class="add">+</button>
-            <button class="del">🗑</button>
-        </div>
+    <!-- 헤더 -->
+    <div class="row header">
+        <div class="cell">아이디<div class="resizer"></div></div>
+        <div class="cell">닉네임<div class="resizer"></div></div>
+        <div class="cell sort-btn" data-sort="amount">낭플<div class="resizer"></div></div>
+        <div class="cell">원플원<div class="resizer"></div></div>
+        <div class="cell">공약<div class="resizer"></div></div>
+        <div class="cell">역팬<div class="resizer"></div></div>
+        <div class="cell">비고<div class="resizer"></div></div>
+        <div class="cell action-cell"></div>
     </div>
-</div>
 
-<!-- 🔥 전체 데이터는 길이 제한 때문에 다음 메시지에서 이어서 붙여줄게 -->
-
-<!-- 합계 -->
-<div class="row summary-row">
-    <div class="cell">합계</div>
-    <div class="cell"></div>
-    <div class="cell summary-amount"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell summary-ygp"></div>
-    <div class="cell"></div>
-    <div class="cell action-cell"></div>
-</div>
-
-</div>
-</div>
-</div>
-
-<script>
-/* ============================ 자동 계산 ============================ */
-function applyRowStyle(row){
-    const amount = row.querySelector(".amount-cell");
-    const ygp = row.querySelector(".ygp-cell");
-    if(!amount || !ygp) return;
-
-    let num = parseInt(amount.innerText.replace(/[^0-9]/g,'')) || 0;
-
-    // 자동일 경우 3%
-    if(ygp.dataset.auto !== "false"){
-        ygp.innerText = num ? Math.round(num * 0.03) : "";
-        ygp.classList.remove("manual");
-    }
-
-    // 색 지정
-    let bg="white";
-    if(num>=100 && num<=298) bg="var(--lv1)";
-    else if(num<=999) bg="var(--lv2)";
-    else if(num<=2999) bg="var(--lv3)";
-    else if(num<=4999) bg="var(--lv4)";
-    else if(num<=9999) bg="var(--lv5)";
-    else if(num<=49999) bg="var(--lv6)";
-    else if(num<=99999) bg="var(--lv7)";
-    else if(num<=299999) bg="var(--lv8)";
-    else if(num>=300000) bg="var(--lv9)";
-
-    row.style.background = bg;
-}
-
-function updateSummary(){
-    let sumA=0, sumY=0;
-    document.querySelectorAll(".data-row").forEach(r=>{
-        sumA += parseInt(r.querySelector(".amount-cell")?.innerText.replace(/[^0-9]/g,'')) || 0;
-        sumY += parseInt(r.querySelector(".ygp-cell")?.innerText.replace(/[^0-9]/g,'')) || 0;
-    });
-    document.querySelector(".summary-amount").innerText = sumA;
-    document.querySelector(".summary-ygp").innerText = sumY;
-}
-
-function refreshAll(){
-    document.querySelectorAll(".data-row").forEach(applyRowStyle);
-    updateSummary();
-}
-
-/* ============================ 열 너비 조정 ============================ */
-let resizing = false, startX, startWidth, targetCell;
-
-document.addEventListener("mousedown", (e)=>{
-    const handle = e.target.closest(".resize-handle");
-    if(!handle) return;
-    resizing = true;
-    targetCell = handle.parentElement;
-    startX = e.clientX;
-    startWidth = targetCell.offsetWidth;
-    document.body.style.userSelect="none";
-});
-
-document.addEventListener("mousemove", (e)=>{
-    if(!resizing) return;
-    const dx = e.clientX - startX;
-    targetCell.style.width = Math.max(50, startWidth + dx) + "px";
-});
-
-document.addEventListener("mouseup", ()=>{
-    resizing = false;
-    document.body.style.userSelect="";
-});
-
-/* ============================ 역팬 수동 변경 감지 ============================ */
-document.addEventListener("input",(e)=>{
-    const cell = e.target;
-    const row = cell.closest(".data-row");
-
-    if(!row) return;
-
-    if(cell.classList.contains("ygp-cell")){
-        cell.dataset.auto="false";
-        cell.classList.add("manual");
-    }
-
-    refreshAll();
-});
-
-/* ============================ 행 클릭 → 행동 버튼 표시 ============================ */
-document.addEventListener("click",(e)=>{
-    const row = e.target.closest(".data-row");
-    document.querySelectorAll(".data-row").forEach(r=>r.classList.remove("show-actions"));
-    if(row) row.classList.add("show-actions");
-});
-
-/* ============================ 검색 ============================ */
-document.getElementById("search").addEventListener("input",(e)=>{
-    const q = e.target.value.toLowerCase();
-    document.querySelectorAll(".data-row").forEach(row=>{
-        const id=row.children[0].innerText.toLowerCase();
-        const nick=row.children[1].innerText.toLowerCase();
-        row.style.display = (id.includes(q)||nick.includes(q)) ? "flex" : "none";
-    });
-});
-
-/* ============================ 초기실행 ============================ */
-window.onload = ()=>{
-    refreshAll();
-};
-</script>
-
-</body>
-</html>
