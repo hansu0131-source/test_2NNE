@@ -40,11 +40,11 @@ h1 {
     display: grid;
     grid-template-columns: 1.1fr 1.2fr 1fr 1fr 1.4fr 1fr 1.4fr;
     background: white;
-    border-radius: 14px; /* 모서리 더 둥글게 */
-    overflow: hidden;
+    border-radius: 14px;
+    overflow: clip;         /* ← Safari 터치 문제 해결 */
+    pointer-events: none;   /* ← 행 전체가 이벤트 먹는 문제 해결 */
 }
 
-/* 셀 */
 .cell {
     padding: 6px 6px;
     font-size: 13px;
@@ -52,9 +52,11 @@ h1 {
     border-bottom: 1px solid #ffd9eb;
     text-align: center;
     outline: none;
-    contenteditable: plaintext-only; /* 텍스트만 */
-    white-space: nowrap;             /* 줄바꿈 금지 */
-    user-select: text;               /* 텍스트 선택 가능 */
+    contenteditable: plaintext-only;
+    white-space: nowrap;
+    user-select: text;
+
+    pointer-events: auto;  /* ← 터치/클릭이 셀에만 적용되게 */
 }
 
 /* 마지막 셀 오른쪽선 제거 */
