@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐰 낭니 숙제표</title>
+<title>🐰 C9 1회차 낭플단</title>
 
 <style>
 body {
@@ -15,92 +15,168 @@ body {
     color: #4c2d3b;
 }
 
-/* 전체 컨테이너 */
+/* 메인 컨테이너 */
 .wrap {
     width: 100%;
     max-width: 900px;
 }
 
-/* 제목 */
+/* 타이틀 */
 h1 {
     text-align: center;
-    color: #FF8FB2;
+    font-size: 22px;
     font-weight: 800;
     margin-bottom: 20px;
-    font-size: 22px;
+    color: #FF8FB2;
 }
 
-/* 표 컨테이너 */
+/* 테이블 구조 */
 .table {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* 행 사이 간격 */
+    gap: 10px; /* 행 간격 */
 }
 
-/* 각 행 = 카드형 */
+/* 행 */
 .row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 1.1fr 1.2fr 1fr 1fr 1.4fr 1fr 1.4fr;
     background: white;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 8px 0;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(255,150,180,0.15);
+    box-shadow: 0 2px 6px rgba(255,150,180,0.12);
 }
 
 /* 셀 */
 .cell {
-    padding: 8px;
+    padding: 10px;
     text-align: center;
     font-size: 14px;
     border-right: 1px solid #ffe1ef;
-    color: #513345;
+    outline: none;
+    contenteditable: true;
 }
 
-/* 마지막 셀 구분선 제거 */
+/* 마지막 셀 오른쪽선 제거 */
 .cell:last-child {
     border-right: none;
 }
 
-/* 헤더 스타일 */
-.header {
+/* 헤더 (수정불가) */
+.header .cell {
     background: #FFE8F4;
-    font-weight: 700;
     color: #D55382;
-    border-radius: 14px;
+    font-weight: 700;
+    contenteditable: false;
+}
+
+/* 포커스 효과 */
+.cell:focus {
+    background: #ffe6f6;
+}
+
+/* 색상 레벨 */
+:root {
+    --lv0: #FFFFFF;
+    --lv1: #FFF6FB;
+    --lv2: #FFEFF7;
+    --lv3: #FFE6F3;
+    --lv4: #FFDEEF;
+    --lv5: #FFD5EB;
+    --lv6: #FFCDE6;
+    --lv7: #FFC5E2;
+    --lv8: #FFBCD9;
+    --lv9: #FFB2D0;
 }
 </style>
 </head>
 
 <body>
 <div class="wrap">
-    <h1>🐰 C9 1회차 낭플단</h1>
 
-    <div class="table">
+<h1>🐰 C9 1회차 낭플단</h1>
 
-        <!-- 헤더 -->
-        <div class="row header">
-            <div class="cell">아이디</div>
-            <div class="cell">닉네임</div>
-            <div class="cell">갯수</div>
-            <div class="cell">원플원</div>
-            <div class="cell">공약</div>
-            <div class="cell">역팬</div>
-            <div class="cell">비고</div>
-        </div>
+<div class="table" id="table">
 
-        <!-- 예시 샘플 행 -->
-        <div class="row">
-            <div class="cell">danggun</div>
-            <div class="cell">당군</div>
-            <div class="cell">30000</div>
-            <div class="cell">1</div>
-            <div class="cell">출석</div>
-            <div class="cell">900</div>
-            <div class="cell">VIP</div>
-        </div>
-
+    <!-- 헤더 -->
+    <div class="row header">
+        <div class="cell">아이디</div>
+        <div class="cell">닉네임</div>
+        <div class="cell">갯수</div>
+        <div class="cell">원플원</div>
+        <div class="cell">공약</div>
+        <div class="cell">역팬</div>
+        <div class="cell">비고</div>
     </div>
+
+    <!-- 샘플 -->
+    <div class="row data">
+        <div class="cell">danggun</div>
+        <div class="cell">당군</div>
+        <div class="cell amount">30000</div>
+        <div class="cell">1</div>
+        <div class="cell">출석</div>
+        <div class="cell ygp"></div>
+        <div class="cell">VIP</div>
+    </div>
+
 </div>
+
+</div>
+
+<script>
+const table = document.getElementById("table");
+
+/* 규칙 기반 색상 + 역팬 계산 */
+function applyStyle(row){
+    const amt = row.querySelector(".amount");
+    const ygp = row.querySelector(".ygp");
+
+    if(!amt || !ygp) return;
+
+    const num = parseInt(amt.innerText.replace(/[^0-9]/g,'')) || 0;
+
+    // 역팬 = 3% (반올림)
+    ygp.innerText = num > 0 ? Math.round(num * 0.03) : "";
+
+    // 색 적용
+    let lv="--lv0";
+    if(num >= 100 && num <= 298) lv="--lv1";
+    else if(num <= 999) lv="--lv2";
+    else if(num <= 2999) lv="--lv3";
+    else if(num <= 4999) lv="--lv4";
+    else if(num <= 9999) lv="--lv5";
+    else if(num <= 49999) lv="--lv6";
+    else if(num <= 99999) lv="--lv7";
+    else if(num <= 299999) lv="--lv8";
+    else if(num >= 300000) lv="--lv9";
+
+    row.style.background = `var(${lv})`;
+}
+
+/* 전체 적용 */
+function refresh(){
+    document.querySelectorAll(".row.data").forEach(applyStyle);
+}
+refresh();
+
+/* 입력 시 반응 */
+table.addEventListener("input", e=>{
+    const row = e.target.closest(".row.data");
+    if(row) applyStyle(row);
+});
+
+/* 모바일 사파리 포커스 강제 */
+document.addEventListener("click", e=>{
+    const cell = e.target.closest(".cell");
+    if(cell) cell.focus();
+});
+document.addEventListener("touchend", e=>{
+    const cell = e.target.closest(".cell");
+    if(cell) setTimeout(()=>cell.focus(), 10);
+});
+</script>
+
 </body>
 </html>
