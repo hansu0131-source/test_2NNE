@@ -2,11 +2,136 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>1회차 숙제</title>
-<link rel="stylesheet" href="../assets/css/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐰 C9 1회차 숙제 확인서</title>
+
+<style>
+body {
+    background: #FFF6FA;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px 16px;
+    margin: 0;
+    color: #4c2d3b;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 1080px;
+}
+
+/* 상단 네비 버튼 */
+.nav-top {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.nav-btn {
+    padding: 6px 14px;
+    background: #FFD6EA;
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    color: #C04270;
+    cursor: pointer;
+    font-weight: 600;
+}
+.nav-btn:hover { background:#ffbfdc; }
+
+/* 테이블 디자인 = 낭플단과 동일 */
+.table-scroll { overflow-x:auto; padding-bottom:4px; }
+
+.table {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:760px;
+}
+
+.row {
+    display:flex;
+    background:white;
+    border-radius:24px;
+    padding:2px 0;
+    box-shadow:0 1px 4px rgba(255,150,180,0.08);
+    transition:0.15s ease;
+}
+.cell {
+    padding:6px 8px;
+    font-size:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-right:1px solid #FFE1EF;
+}
+.cell:last-child { border-right:none; }
+
+.header {
+    background:#FFEFF7;
+    font-weight:700;
+    color:#D04F7D;
+    border-bottom:2px solid #F8C7DB;
+}
+
+/* 열 너비 */
+.row .cell:nth-child(1){ width:140px; }
+.row .cell:nth-child(2){ width:150px; }
+.row .cell:nth-child(3){ width:150px; }
+.row .cell:nth-child(4){ width:80px; }
+.row .cell:nth-child(5){ width:80px; }
+
+</style>
 </head>
+
 <body>
-<h1>📸 1회차 숙제 확인용 리스트</h1>
-<p>핸드폰용 간단 텍스트 리스트</p>
+<div class="wrap">
+
+<!-- 네비 버튼 -->
+<div class="nav-top">
+    <button onclick="location.href='../index.html'" class="nav-btn">🏠 홈</button>
+    <button onclick="history.back()" class="nav-btn">◀ 이전</button>
+</div>
+
+<h1 style="text-align:center; color:#FF8FB2;">📸 C9 1회차 숙제</h1>
+
+<div class="table-scroll">
+    <div class="table">
+
+        <div class="row header">
+            <div class="cell">아이디</div>
+            <div class="cell">닉네임</div>
+            <div class="cell">숙제 종류</div>
+            <div class="cell">사진</div>
+            <div class="cell">움짤</div>
+        </div>
+
+        <!-- ====== 숙제 리스트 테이블 ====== -->
+
+        <div class="row"><div class="cell">dksl2233</div><div class="cell">[C9]잘해</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">fox11241</div><div class="cell">#woorinangni</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">hantong113</div><div class="cell">예수형2↑</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">knifehoo</div><div class="cell">김배터</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">airess16</div><div class="cell">옴브리뉴팬</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">wjddudtjr777</div><div class="cell">낭무새</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+        <div class="row"><div class="cell">kokoko2151</div><div class="cell">로넌</div><div class="cell">정성방셀</div><div class="cell">4</div><div class="cell">4</div></div>
+
+        <div class="row"><div class="cell">jounguk892</div><div class="cell">꽂을때희열</div><div class="cell">방셀</div><div class="cell">2</div><div class="cell">1</div></div>
+        <div class="row"><div class="cell">zxczsd235</div><div class="cell">울쎄라형2↑</div><div class="cell">방셀</div><div class="cell">2</div><div class="cell">1</div></div>
+        <div class="row"><div class="cell">malguman</div><div class="cell">도맑음</div><div class="cell">방셀</div><div class="cell">2</div><div class="cell">1</div></div>
+        <div class="row"><div class="cell">pretty5869</div><div class="cell">이쁘면깅예솔</div><div class="cell">방셀</div><div class="cell">2</div><div class="cell">1</div></div>
+        <div class="row"><div class="cell">noble275</div><div class="cell">꼬라지하고는</div><div class="cell">방셀</div><div class="cell">2</div><div class="cell">1</div></div>
+
+        <div class="row"><div class="cell">22noka</div><div class="cell">대출갚는더덕</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+        <div class="row"><div class="cell">tjd01084</div><div class="cell">낭겨울♥</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+        <div class="row"><div class="cell">kegsdop42</div><div class="cell">조블등장</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+        <div class="row"><div class="cell">nowtomorrow</div><div class="cell">초코톡핑</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+        <div class="row"><div class="cell">stevendan85</div><div class="cell">스티븐댄</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+        <div class="row"><div class="cell">gkeksty</div><div class="cell">사업자대출</div><div class="cell">고정 사진 방셀</div><div class="cell">1+</div><div class="cell">0</div></div>
+
+    </div>
+</div>
+
+</div>
 </body>
 </html>
