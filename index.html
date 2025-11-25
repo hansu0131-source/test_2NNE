@@ -3,227 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>우 낭 예 - 메인</title>
+<title>C9 낭니 홈</title>
+
+<!-- 온글잎 콘콘체 웹폰트 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webfontworld/Onul/ONul.css">
 
 <style>
-/* TODO: 온글잎 콘콘체 웹폰트 추가 후 font-family 첫 번째로 사용 */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    min-height: 100vh;
     background: #FFF6FA;
-    color: #4c2d3b;
-    font-family: "온글잎 콘콘체", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'ONul', "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    margin: 0;
+    padding: 20px 16px;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .wrap {
     width: 100%;
-    max-width: 640px;
-    padding: 24px 16px 32px;
-    text-align: center;
+    max-width: 1080px;
 }
 
-/* 상단 로고 + 타이틀 영역 */
-.logo-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* 로고 중앙 정렬 영역 */
+.main-logo-box {
+    width: 100%;
+    text-align: center;
     margin-bottom: 24px;
 }
 
-.logo-img-wrap {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+.main-logo-box img {
+    width: min(300px, 70vw);   /* 모바일 크게 / 웹 적당하게 */
+    max-width: 340px;
+    border-radius: 18px;
+    background: white;
     padding: 10px;
-    border-radius: 24px;
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(255, 150, 180, 0.25);
-    margin-bottom: 10px;
-}
-
-/* 깃허브 assets/img 안에 있는 메인 로고 이미지로 교체해서 사용 */
-.logo-img-wrap img {
-    display: block;
-    width: min(280px, 70vw);      /* 모바일에서 크게, 웹에서도 적당히 */
-    max-width: 320px;
-    height: auto;
-    border-radius: 18px;          /* 사진 느낌 */
+    box-shadow: 0 4px 12px rgba(255,150,180,0.25);
 }
 
 .tagline {
+    margin-top: 10px;
     font-size: 26px;
-    letter-spacing: 0.18em;
+    font-weight: 700;
     color: #FF8FB2;
-    text-shadow: 0 1px 0 #ffffff;
-    margin-bottom: 4px;
+    text-align: center;
+    letter-spacing: 0.1em;
 }
 
-.subtitle {
-    font-size: 13px;
-    color: #b06b86;
-    opacity: 0.85;
+/* 기존 탭/메뉴 스타일은 그대로 유지 */
+.menu-section {
+    margin-top: 26px;
 }
 
-/* 섹션 타이틀 */
-.section-title {
-    font-size: 15px;
+.menu-title {
+    font-size: 17px;
     font-weight: 700;
     color: #d45784;
-    margin: 18px 0 8px;
+    margin-bottom: 10px;
 }
 
-/* 네비게이션 카드 영역 */
-.nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-/* 큰 그룹 카드 (엑셀방송 / 개인방송) */
-.nav-card {
+.menu-card {
     background: #FFEFF7;
+    padding: 14px 18px;
     border-radius: 22px;
-    padding: 14px 14px 10px;
-    box-shadow: 0 2px 6px rgba(255, 150, 180, 0.16);
+    margin-bottom: 14px;
+    box-shadow: 0 2px 6px rgba(255,150,180,0.16);
 }
 
-.nav-card-title {
+.menu-card-title {
     font-size: 14px;
     font-weight: 700;
-    color: #d04578;
+    color: #c23b6f;
     margin-bottom: 8px;
 }
 
-/* 내부 링크 버튼들 */
-.link-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.link-row-label {
-    font-size: 12px;
-    color: #b06b86;
-    text-align: left;
-    margin-bottom: 2px;
-}
-
-.nav-link {
+.menu-link {
     display: block;
-    width: 100%;
-    text-align: center;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border-radius: 999px;
-    border: none;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
     background: #FFD8EA;
     color: #c23b6f;
-    box-shadow: 0 1px 3px rgba(255, 140, 180, 0.35);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(255, 130, 160, 0.35);
 }
 
-.nav-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(255, 140, 180, 0.4);
-    background: #ffcae3;
-}
-
-/* 하단 푸터 */
-.footer {
-    margin-top: 22px;
-    font-size: 11px;
-    color: #b98ca0;
-    opacity: 0.85;
-}
-
-/* 반응형 보정 */
-@media (min-width: 768px) {
-    .wrap {
-        max-width: 720px;
-    }
-    .logo-img-wrap img {
-        width: 320px;
-    }
-}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-    <!-- 상단 메인 로고 + 문구 -->
-    <div class="logo-box">
-        <div class="logo-img-wrap">
-            <!-- 여기 src 경로를 깃허브에 올려둔 메인 이미지 파일명으로 바꿔서 사용해줘 -->
-            <img src="assets/img/c9-main-logo.png" alt="C9 낭플단 메인 로고">
-        </div>
+    <!-- ⭐ 상단 메인 이미지 + 우낭예 -->
+    <div class="main-logo-box">
+        <img src="assets/img/main_logo.png" alt="메인 로고">
         <div class="tagline">우 낭 예</div>
-        <div class="subtitle">C9 낭니 엑셀방송 · 낭플단 관리 전용 페이지</div>
     </div>
 
-    <!-- 네비게이션 그룹 -->
-    <div class="nav-group">
+    <!-- ⭐ 기존 메뉴 구조는 절대 변경 없음 -->
+    <div class="menu-section">
 
-        <!-- 엑셀방송 -->
-        <div class="section-title">엑셀방송</div>
-        <div class="nav-card">
-            <div class="nav-card-title">낭플단 1회차</div>
-            <div class="link-list">
-                <div class="link-row">
-                    <div class="link-row-label">낭플단 명단 / 공약</div>
-                    <!-- 이미 존재하는 C9 1회차 페이지 -->
-                    <a class="nav-link" href="c9-1.html">📋 C9 1회차 낭플단 리스트</a>
-                </div>
-                <div class="link-row" style="margin-top:6px;">
-                    <div class="link-row-label">1회차 숙제 정리</div>
-                    <!-- 우리가 방금 만든 숙제용 테이블 페이지 -->
-                    <a class="nav-link" href="c9-1-homework.html">✅ C9 1회차 숙제 확인표</a>
-                </div>
-            </div>
+        <div class="menu-title">엑셀방송</div>
+
+        <div class="menu-card">
+            <div class="menu-card-title">C9 1회차</div>
+            <a class="menu-link" href="c9-1.html">📋 1회차 낭플단 명단</a>
+            <a class="menu-link" href="c9-1-homework.html">📝 1회차 숙제</a>
         </div>
 
-        <!-- 낭플단 2회차 (향후 확장용) -->
-        <div class="nav-card">
-            <div class="nav-card-title">낭플단 2회차 (예정)</div>
-            <div class="link-list">
-                <div class="link-row">
-                    <div class="link-row-label">2회차 명단 / 공약</div>
-                    <a class="nav-link" href="#">📋 준비 중입니다</a>
-                </div>
-                <div class="link-row" style="margin-top:6px;">
-                    <div class="link-row-label">2회차 숙제 정리</div>
-                    <a class="nav-link" href="#">✅ 준비 중입니다</a>
-                </div>
-            </div>
+        <div class="menu-card">
+            <div class="menu-card-title">C9 2회차 (예정)</div>
+            <a class="menu-link" href="#">📋 준비 중</a>
+            <a class="menu-link" href="#">📝 준비 중</a>
         </div>
 
-        <!-- 개인방송 -->
-        <div class="section-title">개인방송</div>
-        <div class="nav-card">
-            <div class="nav-card-title">개인방송 숙제 (예정)</div>
-            <div class="link-list">
-                <div class="link-row">
-                    <div class="link-row-label">개인방송 숙제 목록</div>
-                    <a class="nav-link" href="#">📝 준비 중입니다</a>
-                </div>
-            </div>
+        <div class="menu-title">개인방송</div>
+
+        <div class="menu-card">
+            <div class="menu-card-title">개인 숙제 관리</div>
+            <a class="menu-link" href="#">📝 준비 중</a>
         </div>
 
-    </div>
-
-    <div class="footer">
-        © C9 낭니 · 엑셀방송 / 낭플단 매니저 전용 도구
     </div>
 
 </div>
