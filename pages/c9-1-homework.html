@@ -107,10 +107,10 @@ h1 {
 .row .cell:nth-child(8) { width: 150px;}  /* 비고 */
 .row .cell:nth-child(9) { width: 80px; }  /* 버튼 */
 
-action-cell {
+.action-cell {
     position: relative;
     border-right: none;
-
+}
 .action-buttons {
     display: none;
     gap: 4px;
@@ -132,6 +132,9 @@ action-cell {
 .action-buttons button:hover {
     background: #ffbddc;
     transform: translateY(-1px);
+}
+.row.show-actions .action-buttons {
+    display: flex;
 }
 </style>
 </head>
